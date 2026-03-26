@@ -1,47 +1,56 @@
-export interface Character {
-  id?: string;
-  name: string;
-  role: string;
-  description?: string; // Detailed visual description
-  image?: string | null; // Base64 string for preview
-  gender?: 'male' | 'female';
-  color?: string;
-  voiceGender?: string;
-  voiceAge?: string;
-  voiceRegion?: string;
-  voiceType?: string; // New field for delivery style (e.g., Advertising, Storytelling)
-  useCameoOutfit?: boolean; // For Jimeng module
-  isMain?: boolean; // For Jimeng module
-  loading?: boolean; // For Jimeng module
+
+export interface User {
+  username: string;
+  password?: string;
+  durationDays: number | 'unlimited';
+  isAdmin?: boolean;
+}
+
+export interface AuthSession {
+  username: string;
+  loginTime: number; // timestamp
+  expirationTime: number | 'unlimited'; // timestamp or 'unlimited'
+  apiKey?: string;
+  extraApiKeys?: string[];
 }
 
 export interface CinematicPrompt {
   prompt: string;
   translation: string;
-  chinesePrompt?: string;
+  chinesePrompt: string;
+}
+
+export interface Character {
+  id: string;
+  name: string;
+  gender: 'male' | 'female';
+  isMain: boolean;
+  useCameoOutfit: boolean;
+  color: string;
+  description?: string;
 }
 
 export interface Scene {
   id: string;
-  description: string;
-  characters: Character[];
+  description: string; // Vietnamese description
+  finalPrompt?: CinematicPrompt;
   loading?: boolean;
   progress?: number;
-  finalPrompt?: CinematicPrompt;
+  characters?: Character[];
 }
 
 export interface Episode {
   id: number;
   title: string;
   summary: string;
-  duration: number;
+  duration: number; // Duration in minutes for this specific episode
   scenes: Scene[];
 }
 
 export interface Screenplay {
   overallPlot: string;
+  intensityLevel: 'storytelling' | 'action-drama' | 'hardcore';
   episodes: Episode[];
-  intensityLevel?: 'storytelling' | 'action-drama' | 'hardcore';
 }
 
 export interface IdeaSuggestion {
@@ -49,57 +58,28 @@ export interface IdeaSuggestion {
   description: string;
 }
 
-export interface ScriptLine {
-  character: string;
-  dialogue: string;
-  action: string;
+export interface ScriptContinuity {
+  previousScript: string;
+  nextEpisodeIdea?: string;
+  duration: number;
+  episodeNumber: number;
 }
 
-export interface VeoPrompt {
-  type: string;
-  prompt: string;
-  dialogue_segment: string; // The specific 12s dialogue for this shot
-}
-
-export interface SoundDesign {
-  music: string;
-  sfx: string;
-}
-
-export interface GeneratedData {
+export interface ContinuityResult {
   title: string;
-  synopsis: string;
-  script: ScriptLine[];
-  veo_prompts: VeoPrompt[];
-  sound_design: SoundDesign;
+  summary: string;
+  scenes: Scene[];
 }
 
-export interface Theme {
-  id: string;
-  label: string;
-  icon: string;
+export type StoryTheme = 'ceo-reveal' | 'inspirational' | 'emotional-family' | 'comedy' | 'culinary' | 'horror' | 'historical' | 'action';
+
+export interface StoryIdea {
+  theme: StoryTheme;
+  content: string;
 }
 
-export interface StyleOption {
-  id: string;
-  label: string;
-  desc: string;
-  color: string;
+export interface StoryScript {
+  title: string;
+  summary: string;
+  episodes: Episode[];
 }
-
-export interface ScriptTone {
-  id: string;
-  label: string;
-  desc: string;
-  instruction: string; // Instruction for the AI
-}
-
-export interface ImageAsset {
-  id: string;
-  file: File;
-  previewUrl: string;
-  base64: string;
-  mimeType: string;
-}
-
-export type InteractionMode = 'wear' | 'hold';
