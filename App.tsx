@@ -18,7 +18,7 @@ import { generateScriptAndPrompts, suggestTopic, suggestSituations } from './ser
 const themes: Theme[] = [
   { id: 'family_life', label: 'Gia đình', icon: '🏠' },
   { id: 'parenting', label: 'Nuôi dạy con', icon: '👶' },
-  { id: 'spouses', label: 'Vợ chồng', icon: '👩‍❤️‍👨' },
+  { id: 'spouses', label: 'Vợ - chồng', icon: '👩‍❤️‍👨' },
   { id: 'health_tips', label: 'Sức khỏe', icon: '❤️' },
   { id: 'body_parts', label: 'Bộ phận', icon: '🧠' },
   { id: 'vegetables', label: 'Rau củ', icon: '🥦' },
