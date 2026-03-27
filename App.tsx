@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Film, Clapperboard, Sparkles, BookOpen, LogOut, Settings, Clock, Zap, ShieldCheck, User as UserIcon } from 'lucide-react';
+import { Film, Clapperboard, Sparkles, BookOpen, LogOut, Settings, Clock, Zap, ShieldCheck, PenTool, User as UserIcon } from 'lucide-react';
 import CinematicPromptModule from './modules/CinematicPromptModule';
 import SeriesDirectorModule from './modules/SeriesDirectorModule';
 import StoryStudioModule from './modules/StoryStudioModule';
+import MarketingSolutionsModule from './modules/MarketingSolutionsModule';
+import UserGuideModule from './modules/UserGuideModule';
 import ErrorBoundary from './components/ErrorBoundary';
 import Login from './components/Login';
 import ApiKeyManager from './components/ApiKeyManager';
@@ -19,7 +21,7 @@ function cn(...inputs: ClassValue[]) {
 }
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'single' | 'series' | 'story'>(() => loadState('activeTab', 'single' as const));
+  const [activeTab, setActiveTab] = useState<'guide' | 'single' | 'series' | 'story' | 'marketing'>(() => loadState('activeTab', 'guide' as const));
   const [session, setSession] = useState<AuthSession | null>(() => getAuthSession());
   const [isApiKeyOpen, setIsApiKeyOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState<string>('');
@@ -126,9 +128,11 @@ const App: React.FC = () => {
               {/* Pill Navigation */}
               <nav className="flex overflow-x-auto no-scrollbar bg-[#F3F4F6] p-1 rounded-xl border border-slate-100 gap-1 flex-1 sm:flex-none">
                 {[
+                  { id: 'guide', label: 'Hướng dẫn', icon: BookOpen },
                   { id: 'single', label: 'Prompt Đơn', icon: Sparkles },
                   { id: 'series', label: 'Phim Võ Thuật', icon: Clapperboard },
-                  { id: 'story', label: 'Xưởng Truyện', icon: BookOpen },
+                  { id: 'story', label: 'Xưởng Truyện', icon: PenTool },
+                  { id: 'marketing', label: 'Giải pháp Marketing', icon: Zap },
                 ].map((item) => (
                   <motion.button
                     key={item.id}
@@ -199,7 +203,17 @@ const App: React.FC = () => {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[500px] bg-orange-100/20 blur-[120px] -z-10 pointer-events-none" />
           
           <div className="space-y-8">
-            {activeTab === 'single' ? <CinematicPromptModule /> : activeTab === 'series' ? <SeriesDirectorModule /> : <StoryStudioModule />}
+            {activeTab === 'guide' ? (
+              <UserGuideModule onNavigate={(tab) => setActiveTab(tab)} />
+            ) : activeTab === 'single' ? (
+              <CinematicPromptModule />
+            ) : activeTab === 'series' ? (
+              <SeriesDirectorModule />
+            ) : activeTab === 'story' ? (
+              <StoryStudioModule />
+            ) : (
+              <MarketingSolutionsModule />
+            )}
           </div>
         </main>
 
